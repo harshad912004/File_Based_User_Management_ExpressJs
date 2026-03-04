@@ -61,7 +61,7 @@ exports.createUsers = (req, res) => {
 // PUT update user by ID
 exports.updateUsersByID = (req, res) => {
      const reqId = req.params.id;
-     const { name } = req.body;
+     const { name, email } = req.body;
      try {
           const usersData = readUsers();
           const userID = usersData.find((u) => u.id == reqId);
@@ -69,7 +69,7 @@ exports.updateUsersByID = (req, res) => {
                return res.status(404).json({ message: 'User not found' });
           }
           userID.name = name;
-          // userID.email = email;
+          userID.email = email;
           writeUsers(usersData);
           res.status(200).json({ message: 'User Updated.', user: userID });
      } catch (err) {
@@ -82,13 +82,13 @@ exports.deleteUsersByID = (req, res) => {
      const reqId = req.params.id;
      try {
           const usersData = readUsers();
-          const userID = usersData.findIndex(u => u.id == reqId);
+          const userID = usersData.findIndex(u => u.id === reqId);
           if (!userID) {
                return res.status(404).json({ message: 'User not found' });
           }
-          const deleteUser = usersData.splice(userID, 1);
+          usersData.splice(userID, 1);
           writeUsers(usersData);
-          return res.status(200).json({ message: `User ${deleteUser[0]} Deleted` });
+          return res.status(200).json({ message: `User ${reqId} Deleted` });
      } catch (err) {
           res.status(500).json({ message: 'error while deleting user.' });
      }

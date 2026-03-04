@@ -2,13 +2,14 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // --------------------------------------------------------------------------
 // user management using file
 const usersRoutes = require("./routes/usersRoute");
 app.use("/users", usersRoutes);
 
-host = 'localhost';
+hostname = 'localhost';
 port = 3000;
-app.listen(port, console.log(`Server runnign at http://${hostname}:${port}`))
-
-https://github.com/harshad912004/File_Based_User_Management_Using_ExpressJs
+app.listen(port, console.log(`Server runnign at http://${hostname}:${port}`));
